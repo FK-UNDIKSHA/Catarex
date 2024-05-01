@@ -9,4 +9,4 @@ RUN pip3 install --break-system-packages --no-cache-dir -r requirements.txt
 
 EXPOSE  8000
 
-CMD [ "uwsgi", "--http :8000", "--wsgi-file ", "main2.py",  "--master",  "--processes ", "4", "--threads ", "2" ]
+CMD [ "uwsgi", "uwsgi.ini" ]
