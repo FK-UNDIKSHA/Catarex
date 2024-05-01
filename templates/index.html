@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="" />
+
+  <title>Catarex - WebUI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DMyQtMlrSQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 500;
+  src: url(https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DP6QtMlrSQ.ttf) format('truetype');
+}
+@-webkit-keyframes roll {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+    transform: translate(-150%, -50%) rotate(-90deg) scale(0.3);
+    box-shadow: none;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  }
+}
+@keyframes roll {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+    transform: translate(-150%, -50%) rotate(-90deg) scale(0.3);
+    box-shadow: none;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  }
+}
+body {
+  background: #289DD2;
+}
+* {
+  box-sizing: border-box;
+}
+.wrapper {
+  -webkit-animation: roll 1.5s;
+          animation: roll 1.5s;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 25px;
+  background: #289DD2;
+  border-radius: 50%;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+}
+.wrapper:active #img-result {
+  margin-top: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+.wrapper #img-result {
+  cursor: pointer;
+  margin: 0;
+  position: relative;
+  background: #1abc9c;
+  background-size: cover;
+  background-position: center;
+  display: block;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  color: rgba(0, 0, 0, 0);
+  transition: box-shadow 0.3s, margin 0.3s, background-image 1.5s;
+}
+.wrapper #img-result.no-image:before {
+  font-family: 'FontAwesome';
+  content: "\f06e";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: #fff;
+  font-size: 48px;
+  opacity: 0.8;
+  transform: translate(-50%, -50%);
+  text-shadow: 0 0px 5px rgba(0, 0, 0, 0.4);
+}
+.wrapper button {
+  margin-top: 20px;
+  display: block;
+  font-family: 'Open Sans Condensed', sans-serif;
+  background: #289DD2;
+  width: 100%;
+  border: none;
+  color: #fff;
+  padding: 10px;
+  letter-spacing: 1.3px;
+  font-size: 1.05em;
+  border-radius: 5px;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+  outline: 0;
+  transition: box-shadow 0.3s, margin-top 0.3s, padding 0.3s;
+}
+.wrapper button:active {
+  box-shadow: none;
+  margin-top: 24px;
+  padding: 8px;
+}
+.show-button {
+  background: #264974;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  float: none;
+  display: none;
+}
+.upload-result {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  overflow-y: auto;
+}
+.upload-result__content {
+  word-break: break-all;
+  font-family: 'Source Code Pro';
+  overflow-wrap: break-word;
+}
+.home-image {
+  width: 100px;
+  align-self: flex-end;
+  object-fit: cover;
+}
+</style>
+
+  <script>
+  window.console = window.console || function(t) {};
+</script>
+
+
+
+</head>
+<center>
+<img
+            src="static/catarex.png"
+            alt="image"
+            class="home-image"
+          /></center>
+<center><h1 style="color: white;">Catarex Simple WebUI</h1></center>
+<center><h2 style="color: white;">Check Your Eyes Here</h2></center>
+<body translate="no">
+  <div class="wrapper">
+  <button class="no-image" id="img-result">Upload Image</button>
+</div>
+<center><button id="tombol_proses" class="show-button">Show server request</button></center>
+<div class="upload-result">
+  <button class="hide-button">Close</button>
+  <pre class="upload-result__content">
+  </pre>
+</div>
+
+      <script id="rendered-js" >
+
+      async function postData(url = '', data = {}) {
+  const response = await fetch(url, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+  return response.json();
+}
+
+(function () {
+  var uploader = document.createElement('input'),
+  image = document.getElementById('img-result');
+
+  uploader.type = 'file';
+  uploader.accept = 'image/*';
+
+  image.onclick = function () {
+    uploader.click();
+  };
+
+  uploader.onchange = function () {
+    var reader = new FileReader();
+    reader.onload = function (evt) {
+      image.classList.remove('no-image');
+      image.style.backgroundImage = 'url(' + evt.target.result + ')';
+      var request = {
+        itemtype: 'Request',
+        brand: 'Information',
+        images: [{
+          data: evt.target.result }] };
+      document.getElementById("tombol_proses").innerHTML = "Processing...";
+      postData('/upload', JSON.stringify(request, null, '  ') )
+        .then(data => {
+        console.log(data[0]);
+        alert(data[0].Pesan);
+        // Autosaved successfully!
+        document.getElementById("tombol_proses").innerHTML = "Show server request";
+        });
+      document.querySelector('.show-button').style.display = 'block';
+      document.querySelector('.upload-result__content').innerHTML = JSON.stringify(request, null, '  ');
+    };
+    reader.readAsDataURL(uploader.files[0]);
+  };
+
+  document.querySelector('.hide-button').onclick = function () {
+    document.querySelector('.upload-result').style.display = 'none';
+  };
+
+  document.querySelector('.show-button').onclick = function () {
+    document.querySelector('.upload-result').style.display = 'block';
+  };
+})();
+//# sourceURL=pen.js
+    </script>
+
+
+</body>
+
+</html>

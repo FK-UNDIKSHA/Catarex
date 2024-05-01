@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Catarex Simple UI</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+
+    <style data-tag="reset-style-sheet">
+      html {  line-height: 1.15;}body {  margin: 0;}* {  box-sizing: border-box;  border-width: 0;  border-style: solid;}p,li,ul,pre,div,h1,h2,h3,h4,h5,h6,figure,blockquote,figcaption {  margin: 0;  padding: 0;}button {  background-color: transparent;}button,input,optgroup,select,textarea {  font-family: inherit;  font-size: 100%;  line-height: 1.15;  margin: 0;}button,select {  text-transform: none;}button,[type="button"],[type="reset"],[type="submit"] {  -webkit-appearance: button;}button::-moz-focus-inner,[type="button"]::-moz-focus-inner,[type="reset"]::-moz-focus-inner,[type="submit"]::-moz-focus-inner {  border-style: none;  padding: 0;}button:-moz-focus,[type="button"]:-moz-focus,[type="reset"]:-moz-focus,[type="submit"]:-moz-focus {  outline: 1px dotted ButtonText;}a {  color: inherit;  text-decoration: inherit;}input {  padding: 2px 4px;}img {  display: block;}html { scroll-behavior: smooth  }
+    </style>
+
+    <style>
+@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css);
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DMyQtMlrSQ.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 500;
+  src: url(https://fonts.gstatic.com/s/sourcecodepro/v23/HI_diYsKILxRpg3hIP6sJ7fM7PqPMcMnZFqUwX28DP6QtMlrSQ.ttf) format('truetype');
+}
+@-webkit-keyframes roll {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+    transform: translate(-150%, -50%) rotate(-90deg) scale(0.3);
+    box-shadow: none;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  }
+}
+@keyframes roll {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+    transform: translate(-150%, -50%) rotate(-90deg) scale(0.3);
+    box-shadow: none;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-10%, -10%) rotate(0deg) scale(1);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  }
+}
+body {
+  background: #289DD2;
+}
+* {
+  box-sizing: border-box;
+}
+.wrapper {
+  -webkit-animation: roll 1.5s;
+          animation: roll 1.5s;
+  position: relative;
+  padding: 25px;
+  background: #289DD2;
+  border-radius: 50%;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  margin: auto;
+}
+.wrapper:active #img-result {
+  margin-top: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+.wrapper #img-result {
+  cursor: pointer;
+  margin: 0;
+  position: relative;
+  background: #1abc9c;
+  background-size: cover;
+  background-position: center;
+  display: block;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+  color: rgba(0, 0, 0, 0);
+  transition: box-shadow 0.3s, margin 0.3s, background-image 1.5s;
+}
+.wrapper #img-result.no-image:before {
+  font-family: 'FontAwesome';
+  content: "\f06e";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  color: #fff;
+  font-size: 48px;
+  opacity: 0.8;
+  transform: translate(-50%, -50%);
+  text-shadow: 0 0px 5px rgba(0, 0, 0, 0.4);
+}
+.wrapper button {
+  margin-top: 20px;
+  display: block;
+  font-family: 'Open Sans Condensed', sans-serif;
+  background: #1abc9c;
+  width: 100%;
+  border: none;
+  color: #fff;
+  padding: 10px;
+  letter-spacing: 1.3px;
+  font-size: 1.05em;
+  border-radius: 5px;
+  box-shadow: 0 4px 5px rgba(0, 0, 0, 0.3);
+  outline: 0;
+  transition: box-shadow 0.3s, margin-top 0.3s, padding 0.3s;
+}
+.wrapper button:active {
+  box-shadow: none;
+  margin-top: 24px;
+  padding: 8px;
+}
+.show-button {
+  background: #264974;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  float: none;
+  display: none;
+}
+.upload-result {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  overflow-y: auto;
+}
+.upload-result__content {
+  word-break: break-all;
+  font-family: 'Source Code Pro';
+  overflow-wrap: break-word;
+}
+.hide-button {
+  background: #264974;
+  border: none;
+  color: #fff;
+}
+.home-image {
+  width: 200px;
+  align-self: flex-end;
+  object-fit: cover;
+  padding-left: var(--dl-space-space-twounits);
+}
+</style>
+
+    <style data-tag="default-style-sheet">
+      html {
+        font-family: Inter;
+        font-size: 16px;
+      }
+
+      body {
+        font-weight: 400;
+        font-style:normal;
+        text-decoration: none;
+        text-transform: none;
+        letter-spacing: normal;
+        line-height: 1.15;
+        color: ##289DD2;
+        background-color: var(--dl-color-gray-white);
+
+      }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/animate.css@4.1.1/animate.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+      data-tag="font"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@teleporthq/teleport-custom-scripts/dist/style.css"
+    />
+  </head>
+  <body>
+    <link rel="stylesheet" href="static/styledesk.css" />
+    <div>
+      <link href="static/indexdesk.css" rel="stylesheet" />
+
+      <div class="home-container">
+        <header data-role="Header" class="home-header">
+            <img
+            src="static/catarex.png"
+            alt="image"
+            class="home-image"
+          />
+          <h1 class="home-text">Catarex Simple WebUI</h1>
+        </header>
+        <span class="home-text01">Check Your Eye Now</span><br>
+        <center><button id="tombol_proses" class="show-button">Show server request</button></center>
+        <div><br></div>
+        <div class="home-pricing">
+          <div class="home-container1">
+            <div class="home-pricing-card">
+              <span class="home-text02">How To use</span>
+              <div class="home-container2">
+                <span class="home-text03">✔ Open This Web</span>
+                <span class="home-text04">✔ Click The Button</span>
+                <span class="home-text05">✔ Upload your Eye Photo</span>
+                <span class="home-text06">✔ Wait and See</span>
+              </div>
+            </div>
+            <div class="home-pricing-card1">
+                <center><span class="home-text07">Upload Here</span></center>
+                <div class="wrapper">
+                    <button class="no-image" id="img-result">Upload Image</button>
+                </div>
+                <div class="upload-result">
+                    <button class="hide-button">Close</button>
+                    <pre class="upload-result__content">
+                    </pre>
+                </div>
+            </div>
+            <div class="home-pricing-card2">
+              <span class="home-text07">information</span>
+              <div class="home-container3">
+                <span class="home-text08">✔ Fast Result</span>
+                <span class="home-text09">✔ Easy To Use</span>
+                <span class="home-text10">✔ Better Result</span>
+                <span class="home-text11">✔ User Friendly</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <footer class="home-footer">
+          <span class="home-text12">© 2024 Catarex, All Rights Reserved.</span>
+        </footer>
+      </div>
+    </div>
+        <script id="rendered-js" >
+
+        async function postData(url = '', data = {}) {
+    const response = await fetch(url, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'same-origin',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    return response.json();
+    }
+
+    (function () {
+    var uploader = document.createElement('input'),
+    image = document.getElementById('img-result');
+
+    uploader.type = 'file';
+    uploader.accept = 'image/*';
+
+    image.onclick = function () {
+        uploader.click();
+    };
+
+    uploader.onchange = function () {
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+        image.classList.remove('no-image');
+        image.style.backgroundImage = 'url(' + evt.target.result + ')';
+        var request = {
+            itemtype: 'Request',
+            brand: 'Information',
+            images: [{
+            data: evt.target.result }] };
+        document.getElementById("tombol_proses").innerHTML = "Processing...";
+        postData('/upload', JSON.stringify(request, null, '  ') )
+            .then(data => {
+            console.log(data[0]);
+            alert(data[0].Pesan);
+            // Autosaved successfully!
+            document.getElementById("tombol_proses").innerHTML = "Show server request";
+            });
+        document.querySelector('.show-button').style.display = 'block';
+        document.querySelector('.upload-result__content').innerHTML = JSON.stringify(request, null, '  ');
+        };
+        reader.readAsDataURL(uploader.files[0]);
+    };
+
+    document.querySelector('.hide-button').onclick = function () {
+        document.querySelector('.upload-result').style.display = 'none';
+    };
+
+    document.querySelector('.show-button').onclick = function () {
+        document.querySelector('.upload-result').style.display = 'block';
+    };
+    })();
+    //# sourceURL=pen.js
+    </script>
+    <script
+      defer=""
+      src="https://unpkg.com/@teleporthq/teleport-custom-scripts"
+    ></script>
+  </body>
+</html>
