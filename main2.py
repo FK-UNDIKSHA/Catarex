@@ -92,10 +92,13 @@ def prediksi():
     Prediksi = Predict(data)
     print(Prediksi)
     if len(Prediksi["predicted_classes"]) >0:
-        if str(Prediksi["predicted_classes"][0]).lower() == "normal":
-            return jsonify({"Pesan" : f'''Result: Non Cataract ({round(Prediksi["predictions"][Prediksi["predicted_classes"][0]]["confidence"],2)*100}%)''', "Status": Prediksi["predicted_classes"][0], "Percentage": round(Prediksi["predictions"][Prediksi["predicted_classes"][0]]["confidence"],2) }, 200)
+        if round(Prediksi["predictions"].get(Prediksi["predicted_classes"][0], {}).get("confidence", 0)*100, 2) > 80:
+            if str(Prediksi["predicted_classes"][0]).lower() == "normal":
+                return jsonify({"Pesan" : f'''Result: Non Cataract ({round(Prediksi["predictions"][Prediksi["predicted_classes"][0]]["confidence"]*100, 2)}%)''', "Status": Prediksi["predicted_classes"][0], "Percentage": round(Prediksi["predictions"][Prediksi["predicted_classes"][0]]["confidence"],2) }, 200)
 
-        return jsonify({"Pesan" : f'''Result: {Prediksi["predicted_classes"][0]} ({round(Prediksi["predictions"][Prediksi["predicted_classes"][0]]["confidence"],2)*100}%)''', "Status": Prediksi["predicted_classes"][0], "Percentage": round(Prediksi["predictions"][Prediksi["predicted_classes"][0]]["confidence"],2) }, 200)
+            return jsonify({"Pesan" : f'''Result: {Prediksi["predicted_classes"][0]} ({round(Prediksi["predictions"][Prediksi["predicted_classes"][0]]["confidence"]*100, 2)}%)''', "Status": Prediksi["predicted_classes"][0], "Percentage": round(Prediksi["predictions"][Prediksi["predicted_classes"][0]]["confidence"],2) }, 200)
+        else:
+            return jsonify({"Pesan" : f'''Result: Image Not Valid, Please Retake''', "Status": "null", "Percentage": "null" }, 200)
     else:
         return jsonify({"Pesan" : f'''Result: Non Cataract (78%)''', "Status": "null", "Percentage": "null" }, 200)
 
